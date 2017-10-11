@@ -1,6 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
     package="com.theokanning.emojikeyboard">
+
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -9,17 +13,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service android:name=".KeyboardService"
+        <service
+            android:name=".KeyboardService"
             android:label="@string/ime_label"
-            android:permission="android.permission.BIND_INPUT_METHOD"
-            >
-            <meta-data android:name="android.view.im" android:resource="@xml/method"/>
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
 
+        <activity android:name=".PermissionActivity"></activity>
     </application>
 
 </manifest>
