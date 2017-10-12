@@ -5,24 +5,37 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.inputmethodservice.InputMethodService
 import android.support.v4.content.ContextCompat
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
+import com.wonderkiln.camerakit.CameraListener
 import com.wonderkiln.camerakit.CameraView
 
 class KeyboardService : InputMethodService() {
 
     private lateinit var cameraView: CameraView
+    private val visionService = VisionApiService()
 
     override fun onCreateInputView(): View {
         Log.e(TAG, "OnCreateInputView")
         val view = layoutInflater.inflate(R.layout.not_keyboard, null)
         cameraView = view.findViewById(R.id.camera_view)
+        val button : View = view.findViewById(R.id.take_picture)
+        button.setOnClickListener { takePicture() }
 
-        if(!checkPermission()) {
+        if (!checkPermission()) {
             val intent = Intent(applicationContext, PermissionActivity::class.java)
             startActivity(intent)
         }
+
+        cameraView.setCameraListener(object : CameraListener() {
+            override fun onPictureTaken(jpeg: ByteArray?) {
+                val encodedString = Base64.encodeToString(jpeg, Base64.DEFAULT)
+                visionService.annotateImage(encodedString, { onTextReceived(it) })
+            }
+        })
         return view
     }
 
@@ -38,11 +51,20 @@ class KeyboardService : InputMethodService() {
         super.onFinishInputView(finishingInput)
     }
 
-    private fun checkPermission() : Boolean{
+    private fun checkPermission(): Boolean {
         return ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun takePicture() {
+        Log.d(TAG, "Taking picture")
+        cameraView.captureImage()
+    }
+
+    private fun onTextReceived(it: String) {
+        Toast.makeText(this@KeyboardService.applicationContext, it, Toast.LENGTH_LONG).show()
+    }
+
     companion object {
-        private val TAG = "KEYBOARD"
+        private val TAG = KeyboardService::class.java.simpleName
     }
 }

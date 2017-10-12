@@ -2,6 +2,7 @@ package com.theokanning.emojikeyboard
 
 import com.theokanning.emojikeyboard.model.Image
 import com.theokanning.emojikeyboard.model.LabelBatchRequest
+import com.theokanning.emojikeyboard.model.LabelBatchResponse
 import com.theokanning.emojikeyboard.model.LabelImageRequest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -47,12 +48,16 @@ class VisionApiService {
         val image = Image(encodedImage)
         val singleRequest = LabelImageRequest(image)
         val request = LabelBatchRequest(listOf(singleRequest))
-        api.annotateImages(request).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        api.annotateImages(request).enqueue(object : Callback<LabelBatchResponse> {
+            override fun onResponse(call: Call<LabelBatchResponse>?, response: Response<LabelBatchResponse>?) {
+                if(response?.isSuccessful == true) {
+                    val labelBatchResponse = response.body()!!
+                    // just return the first thing for now
+                    callback.invoke(labelBatchResponse.responses[0].labelAnnotations[0].description)
+                }
             }
 
-            override fun onFailure(call: Call<Void>?, t: Throwable?) {
+            override fun onFailure(call: Call<LabelBatchResponse>?, t: Throwable?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })

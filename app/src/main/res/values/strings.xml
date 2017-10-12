@@ -2,4 +2,5 @@
     <string name="app_name">EmojiKeyboard</string>
     <string name="ime_label">Emoji Keyboard</string>
     <string name="subtype_en_US">English (US)</string>
+    <string name="take_picture">Take Picture</string>
 </resources>

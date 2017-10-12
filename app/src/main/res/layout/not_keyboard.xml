@@ -14,15 +14,15 @@
         app:ckFacing="back"
         app:ckFlash="off"
         app:ckFocus="tapWithMarker"
-        app:ckJpegQuality="100"
+        app:ckJpegQuality="25"
         app:ckMethod="standard"
-        app:ckPermissions="picture"
-        app:ckVideoQuality="max2160p" />
+        app:ckPermissions="picture" />
 
     <Button
+        android:id="@+id/take_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="16dp"
-        android:text="Take Picture" />
+        android:text="@string/take_picture" />
 </FrameLayout>
