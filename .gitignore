@@ -11,3 +11,4 @@ gradle.properties
 .idea/vcs.xml
 
 dist/
+gradle.properties
