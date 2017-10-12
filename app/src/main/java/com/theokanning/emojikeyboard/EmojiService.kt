@@ -13,9 +13,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class VisionApiService {
+/**
+ * Service that takes an image and returns the closest emoji match.
+ */
+class EmojiService {
 
     private val api: VisionApi
+    private val emojiMapper = EmojiMapper()
 
     init {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
@@ -44,7 +48,11 @@ class VisionApiService {
         api = retrofit.create<VisionApi>(VisionApi::class.java)
     }
 
-    fun annotateImage(encodedImage: String, callback: (String) -> Unit) {
+    /**
+     * Takes a Base64 encoded image and attempts to find a matching emoji using Google's Vision Api.
+     * Callback is called with matching emoji, or null if none if found
+     */
+    fun getEmojiForImage(encodedImage: String, callback: (String?) -> Unit) {
         val image = Image(encodedImage)
         val singleRequest = LabelImageRequest(image)
         val request = LabelBatchRequest(listOf(singleRequest))
@@ -52,13 +60,15 @@ class VisionApiService {
             override fun onResponse(call: Call<LabelBatchResponse>?, response: Response<LabelBatchResponse>?) {
                 if(response?.isSuccessful == true) {
                     val labelBatchResponse = response.body()!!
-                    // just return the first thing for now
-                    callback.invoke(labelBatchResponse.responses[0].labelAnnotations[0].description)
+                    val labelImageResponse = labelBatchResponse.responses[0] // should only have one response
+                    val labels = labelImageResponse.labelAnnotations.map { it.description }
+                    val emoji = emojiMapper.findBestEmoji(labels)
+                    callback.invoke(emoji)
                 }
             }
 
             override fun onFailure(call: Call<LabelBatchResponse>?, t: Throwable?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                // do nothing
             }
         })
     }

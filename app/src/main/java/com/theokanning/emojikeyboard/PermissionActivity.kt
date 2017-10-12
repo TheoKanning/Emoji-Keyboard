@@ -7,7 +7,9 @@ import android.support.v4.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.widget.Toast
 
-
+/**
+ * Activity that currently only exists to request camera permission
+ */
 class PermissionActivity : Activity() {
 
     private val PERMISSION_CAMERA_REQUEST_CODE = 123

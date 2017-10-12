@@ -16,11 +16,11 @@ import com.wonderkiln.camerakit.CameraView
 class KeyboardService : InputMethodService() {
 
     private lateinit var cameraView: CameraView
-    private val visionService = VisionApiService()
+    private val visionService = EmojiService()
 
     override fun onCreateInputView(): View {
         Log.e(TAG, "OnCreateInputView")
-        val view = layoutInflater.inflate(R.layout.not_keyboard, null)
+        val view = layoutInflater.inflate(R.layout.keyboard, null)
         cameraView = view.findViewById(R.id.camera_view)
         val button : View = view.findViewById(R.id.take_picture)
         button.setOnClickListener { takePicture() }
@@ -33,7 +33,7 @@ class KeyboardService : InputMethodService() {
         cameraView.setCameraListener(object : CameraListener() {
             override fun onPictureTaken(jpeg: ByteArray?) {
                 val encodedString = Base64.encodeToString(jpeg, Base64.DEFAULT)
-                visionService.annotateImage(encodedString, { onTextReceived(it) })
+                visionService.getEmojiForImage(encodedString, { onEmojiReceived(it) })
             }
         })
         return view
@@ -60,8 +60,12 @@ class KeyboardService : InputMethodService() {
         cameraView.captureImage()
     }
 
-    private fun onTextReceived(it: String) {
-        Toast.makeText(this@KeyboardService.applicationContext, it, Toast.LENGTH_LONG).show()
+    private fun onEmojiReceived(emoji: String?) {
+        if(emoji != null) {
+            currentInputConnection.commitText(emoji, 1)
+        } else {
+            Toast.makeText(this@KeyboardService.applicationContext, "No matching emoji", Toast.LENGTH_LONG).show()
+        }
     }
 
     companion object {
