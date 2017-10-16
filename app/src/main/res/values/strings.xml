@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">EmojiKeyboard</string>
-    <string name="ime_label">Emoji Keyboard</string>
-    <string name="subtype_en_US">English (US)</string>
-    <string name="take_picture">Take Picture</string>
+    <string name="app_name">😀⌨</string>
+    <string name="ime_label">⌨️</string>
+    <string name="subtype_emoji">😀</string>  <!-- Grinning face -->
 </resources>
