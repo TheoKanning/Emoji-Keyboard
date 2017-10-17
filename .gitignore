@@ -9,6 +9,7 @@ gradle.properties
 .externalNativeBuild
 
 .idea/vcs.xml
-
 dist/
+keys/
+keystore.properties
 gradle.properties
