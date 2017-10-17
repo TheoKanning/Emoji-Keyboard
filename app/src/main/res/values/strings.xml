@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">😀⌨</string>
     <string name="ime_label">⌨️</string>
-    <string name="subtype_emoji">😀</string>  <!-- Grinning face -->
+    <string name="subtype_emoji">😀</string>
+
+    <string name="camera_permission_rationale">🚫📷😭</string>
+    <string name="settings_button">👇\n👉⚙️👈\n👆</string>
 </resources>

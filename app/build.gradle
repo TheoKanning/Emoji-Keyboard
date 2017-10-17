@@ -34,6 +34,7 @@ repositories {
 ext {
     retrofitVersion = '2.3.0'
     okhttpVersion = '3.9.0'
+    butterknifeVersion = '8.8.1'
 }
 
 dependencies {
@@ -46,13 +47,17 @@ dependencies {
     compile 'com.wonderkiln:camerakit:0.11.1'
     compile 'com.vdurmont:emoji-java:3.3.0'
 
-    // retrofit
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    // butterknife
+    compile "com.jakewharton:butterknife:$butterknifeVersion"
+    kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
     // okhttp
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    // retrofit
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     testCompile 'junit:junit:4.12'
 }

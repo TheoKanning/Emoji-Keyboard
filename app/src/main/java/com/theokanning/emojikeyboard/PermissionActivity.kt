@@ -28,12 +28,14 @@ class PermissionActivity : Activity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+                                            permissions: Array<String>,
+                                            grantResults: IntArray) {
         when (requestCode) {
             PERMISSION_CAMERA_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     finish()
                 } else {
+                    finish()
                     Toast.makeText(this, "Permission not granted", Toast.LENGTH_LONG).show()
                 }
             }
