@@ -68,7 +68,7 @@ class EmojiService {
             }
 
             override fun onFailure(call: Call<LabelBatchResponse>?, t: Throwable?) {
-                // do nothing
+                callback(null)
             }
         })
     }
