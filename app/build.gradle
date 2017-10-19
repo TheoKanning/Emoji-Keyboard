@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'io.fabric'
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
     compileSdkVersion 26
@@ -18,24 +19,27 @@ android {
     }
     signingConfigs {
         debug {
-            keyAlias keystoreProperties['debugKeyAlias']
-            keyPassword keystoreProperties['debugKeyPassword']
-            storeFile file(keystoreProperties['debugStoreFile'])
-            storePassword keystoreProperties['debugStorePassword']
+            keyAlias localProperties['debugKeyAlias']
+            keyPassword localProperties['debugKeyPassword']
+            storeFile file(localProperties['debugStoreFile'])
+            storePassword localProperties['debugStorePassword']
         }
         release {
-            keyAlias keystoreProperties['releaseKeyAlias']
-            keyPassword keystoreProperties['releaseKeyPassword']
-            storeFile file(keystoreProperties['releaseStoreFile'])
-            storePassword keystoreProperties['releaseStorePassword']
+            keyAlias localProperties['releaseKeyAlias']
+            keyPassword localProperties['releaseKeyPassword']
+            storeFile file(localProperties['releaseStoreFile'])
+            storePassword localProperties['releaseStorePassword']
         }
+    }
+    defaultConfig {
+        buildConfigField "String", "API_KEY", localProperties['api_key']
+        manifestPlaceholders = [fabricKey:localProperties['fabric_key']]
     }
     buildTypes {
         debug {
-            buildConfigField "String", "API_KEY", API_KEY
+            applicationIdSuffix ".debug"
         }
         release {
-            buildConfigField "String", "API_KEY", API_KEY
             minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -45,9 +49,8 @@ android {
 
 repositories {
     jcenter()
-    maven {
-        url "https://maven.google.com"
-    }
+    maven { url "https://maven.google.com"}
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 ext {
@@ -66,6 +69,10 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.wonderkiln:camerakit:0.11.1'
     compile 'com.vdurmont:emoji-java:3.3.0'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
+        transitive = true;
+    }
 
     // butterknife
     compile "com.jakewharton:butterknife:$butterknifeVersion"
