@@ -1,5 +1,7 @@
 package com.theokanning.emojikeyboard.dagger.module
 
+import android.content.res.AssetManager
+import com.google.gson.Gson
 import com.theokanning.emojikeyboard.VisionApi
 import com.theokanning.emojikeyboard.analytics.Analytics
 import com.theokanning.emojikeyboard.emoji.EmojiJavaWrapper
@@ -14,7 +16,7 @@ import javax.inject.Singleton
 class EmojiModule {
     @Provides
     @Singleton
-    fun provideEmojiLoader() = EmojiLoader()
+    fun provideEmojiLoader(assetManager: AssetManager, gson: Gson) = EmojiLoader(assetManager, gson)
 
     @Provides
     @Singleton
@@ -22,8 +24,10 @@ class EmojiModule {
 
     @Provides
     @Singleton
-    fun provideEmojiMapper(emojiJavaWrapper:EmojiJavaWrapper, analytics: Analytics)
-            = EmojiMapper(emojiJavaWrapper, analytics)
+    fun provideEmojiMapper(emojiJavaWrapper:EmojiJavaWrapper,
+                           emojiLoader: EmojiLoader,
+                           analytics: Analytics)
+            = EmojiMapper(emojiJavaWrapper, emojiLoader, analytics)
 
     @Provides
     @Singleton

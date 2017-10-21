@@ -17,12 +17,13 @@ class EmojiMapperTest {
     private lateinit var emojiMapper: EmojiMapper
 
     private val emojiJavaWrapper: EmojiJavaWrapper = mock()
+    private val emojiLoader : EmojiLoader = mock()
     private val analytics: Analytics = mock()
 
 
     @Before
     fun setup() {
-        emojiMapper = EmojiMapper(emojiJavaWrapper, analytics)
+        emojiMapper = EmojiMapper(emojiJavaWrapper, emojiLoader, analytics)
     }
 
     @Test
@@ -35,7 +36,7 @@ class EmojiMapperTest {
     }
 
     @Test
-    fun emojiMatched_sendEventAndReturnString() {
+    fun emojiMatchedByEmojiJava_sendEventAndReturnString() {
         val label = "house"
         whenever(emojiJavaWrapper.getEmojiForAlias(label)) doReturn "🏠"
 
@@ -43,6 +44,23 @@ class EmojiMapperTest {
 
         verify(analytics).emojiMatched(label)
         assertEquals("🏠", emoji)
+    }
+
+    @Test
+    fun emojiMatchedByMap_sendEventAndReturnString() {
+        val label = "house"
+        val expectedEmoji = "🏠"
+        val map = HashMap<String, String>()
+        map[label] = expectedEmoji
+        whenever(emojiLoader.loadEmojis()) doReturn map
+
+        // recreate so that init is called again
+        emojiMapper = EmojiMapper(emojiJavaWrapper, emojiLoader, analytics)
+
+        val emoji = emojiMapper.findBestEmoji(listOf(label))
+
+        verify(analytics).emojiMatched(label)
+        assertEquals(expectedEmoji, emoji)
     }
 
     @Test
