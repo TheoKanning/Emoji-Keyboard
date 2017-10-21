@@ -1,5 +1,8 @@
-package com.theokanning.emojikeyboard
+package com.theokanning.emojikeyboard.emoji
 
+import com.theokanning.emojikeyboard.BuildConfig
+import com.theokanning.emojikeyboard.VisionApi
+import com.theokanning.emojikeyboard.analytics.Analytics
 import com.theokanning.emojikeyboard.model.Image
 import com.theokanning.emojikeyboard.model.LabelBatchRequest
 import com.theokanning.emojikeyboard.model.LabelBatchResponse
@@ -19,13 +22,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class EmojiService {
 
     private val api: VisionApi
-    private val emojiMapper = EmojiMapper()
+    private val emojiMapper = EmojiMapper(EmojiJavaWrapper(), Analytics())
 
     init {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        val authorizationInterceptor = Interceptor {chain ->
+        val authorizationInterceptor = Interceptor { chain ->
             val newUrl = chain.request().url().newBuilder()
                     .addQueryParameter("key", BuildConfig.API_KEY)
                     .build()
@@ -58,12 +61,14 @@ class EmojiService {
         val request = LabelBatchRequest(listOf(singleRequest))
         api.annotateImages(request).enqueue(object : Callback<LabelBatchResponse> {
             override fun onResponse(call: Call<LabelBatchResponse>?, response: Response<LabelBatchResponse>?) {
-                if(response?.isSuccessful == true) {
+                if (response?.isSuccessful == true) {
                     val labelBatchResponse = response.body()!!
                     val labelImageResponse = labelBatchResponse.responses[0] // should only have one response
                     val labels = labelImageResponse.labelAnnotations.map { it.description }
                     val emoji = emojiMapper.findBestEmoji(labels)
-                    callback.invoke(emoji)
+                    callback(emoji)
+                } else {
+                    callback(null)
                 }
             }
 

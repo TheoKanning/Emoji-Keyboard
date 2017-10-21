@@ -14,8 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.wonderkiln.camerakit.CameraListener
 import com.wonderkiln.camerakit.CameraView
-import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-
+import com.theokanning.emojikeyboard.emoji.EmojiService
 
 
 class KeyboardService : InputMethodService() {

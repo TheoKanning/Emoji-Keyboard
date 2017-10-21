@@ -1,11 +1,10 @@
-package com.theokanning.emojikeyboard
+package com.theokanning.emojikeyboard.emoji
 
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.CustomEvent
-import com.vdurmont.emoji.EmojiManager
+import com.theokanning.emojikeyboard.analytics.Analytics
 
 
-class EmojiMapper {
+class EmojiMapper(private val emojiJavaWrapper: EmojiJavaWrapper,
+                  private val analytics: Analytics) {
     /**
      * Looks through the list attempting to find an emoji that corresponds to one of the strings.
      * If no emoji is found, returns null.
@@ -16,15 +15,14 @@ class EmojiMapper {
 
         // return the unicode representation of the first matched emoji
         labels.map {
-            EmojiManager.getForAlias(it)?.let {
-                Answers.getInstance()
-                        .logCustom(CustomEvent("Emoji Matched")
-                                .putCustomAttribute("emoji", it.description))
-                return it.unicode
+            val emoji = emojiJavaWrapper.getEmojiForAlias(it)
+            if (emoji != null) {
+                analytics.emojiMatched(it)
+                return emoji
             }
         }
 
-        Answers.getInstance().logCustom(CustomEvent("No Emoji Matched"))
+        analytics.noEmojiMatched()
 
         return null
     }
@@ -37,11 +35,9 @@ class EmojiMapper {
     }
 
     private fun recordIfMissing(label: String) {
-        val emoji = EmojiManager.getForAlias(label)
+        val emoji = emojiJavaWrapper.getEmojiForAlias(label)
         if (emoji == null) {
-            Answers.getInstance()
-                    .logCustom(CustomEvent("Label Not Recognized")
-                            .putCustomAttribute("label", label))
+            analytics.labelNotRecognized(label)
         }
     }
 
