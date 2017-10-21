@@ -12,24 +12,28 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import com.theokanning.emojikeyboard.emoji.EmojiService
 import com.wonderkiln.camerakit.CameraListener
 import com.wonderkiln.camerakit.CameraView
-import com.theokanning.emojikeyboard.emoji.EmojiService
+import javax.inject.Inject
 
 
 class KeyboardService : InputMethodService() {
 
-    private lateinit var cameraView: CameraView
+    @Inject
+    lateinit var emojiService : EmojiService
 
+    private lateinit var cameraView: CameraView
     private lateinit var cameraLayout: View
     private lateinit var permissionsLayout: View
 
-    private val visionService = EmojiService()
     private var checkedForPermission = false
 
     override fun onCreateInputView(): View {
         Log.e(TAG, "OnCreateInputView")
         val view = layoutInflater.inflate(R.layout.keyboard, null)
+
+        (application as KeyboardApplication).getComponent().inject(this)
 
         cameraView = view.findViewById(R.id.camera_view)
         cameraLayout = view.findViewById(R.id.camera_layout)
@@ -88,7 +92,7 @@ class KeyboardService : InputMethodService() {
         cameraView.setCameraListener(object : CameraListener() {
             override fun onPictureTaken(jpeg: ByteArray?) {
                 val encodedString = Base64.encodeToString(jpeg, Base64.DEFAULT)
-                visionService.getEmojiForImage(encodedString, { onEmojiReceived(it) })
+                emojiService.getEmojiForImage(encodedString, { onEmojiReceived(it) })
             }
         })
     }
