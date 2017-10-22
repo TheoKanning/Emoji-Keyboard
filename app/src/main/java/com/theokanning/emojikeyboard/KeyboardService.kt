@@ -21,7 +21,7 @@ import javax.inject.Inject
 class KeyboardService : InputMethodService() {
 
     @Inject
-    lateinit var emojiService : EmojiService
+    lateinit var emojiService: EmojiService
 
     private lateinit var cameraView: CameraView
     private lateinit var cameraLayout: View
@@ -39,20 +39,20 @@ class KeyboardService : InputMethodService() {
         cameraLayout = view.findViewById(R.id.camera_layout)
         permissionsLayout = view.findViewById(R.id.permission_rationale_layout)
 
-        val button : View = view.findViewById(R.id.take_picture)
+        val button: View = view.findViewById(R.id.take_picture)
         button.setOnClickListener {
             cameraView.captureImage()
         }
 
-        val settingsButton : View = view.findViewById(R.id.go_to_settings)
-        settingsButton.setOnClickListener { goToSettings()}
+        val settingsButton: View = view.findViewById(R.id.go_to_settings)
+        settingsButton.setOnClickListener { goToSettings() }
 
         return view
     }
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        Log.e(TAG, "onStartInputView")
+        Log.e(TAG, "onStartInputView: restarting=$restarting")
 
         if (!hasCameraPermission() && !checkedForPermission) {
             checkedForPermission = true
@@ -66,10 +66,11 @@ class KeyboardService : InputMethodService() {
         }
     }
 
-    override fun onFinishInputView(finishingInput: Boolean) {
-        Log.e(TAG, "OnFinishInputView")
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "OnDestroy")
+        Log.d(TAG, "Stopping Camera")
         cameraView.stop()
-        super.onFinishInputView(finishingInput)
     }
 
     private fun hasCameraPermission(): Boolean {
@@ -87,6 +88,7 @@ class KeyboardService : InputMethodService() {
     }
 
     private fun startCamera() {
+        Log.d(TAG, "Starting Camera")
         cameraView.start()
 
         cameraView.setCameraListener(object : CameraListener() {
@@ -98,7 +100,7 @@ class KeyboardService : InputMethodService() {
     }
 
     private fun onEmojiReceived(emoji: String?) {
-        if(emoji != null) {
+        if (emoji != null) {
             currentInputConnection.commitText(emoji, 1)
         } else {
             Toast.makeText(this@KeyboardService.applicationContext, "No matching emoji", Toast.LENGTH_LONG).show()
