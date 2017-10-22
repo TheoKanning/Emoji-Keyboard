@@ -1,3 +1,27 @@
 {
-  "house": "🏠"
+  "arm": "💪",
+  "food": "🍎",
+  "floor": null,
+  "flooring": null,
+  "furniture": "🛋️",
+  "grocery store": "🏪",
+  "home": "🏠",
+  "home appliance": null,
+  "house": "🏠",
+  "joint": null,
+  "kitchen": "🏠",
+  "local food": "🍅",
+  "natural foods": "🍅",
+  "neck": null,
+  "produce": "🍅",
+  "product": null,
+  "property": null,
+  "retail": "🏬",
+  "room": "🏠",
+  "shelving": null,
+  "shoulder": null,
+  "supermarket": "🏪",
+  "tree": "🌳",
+  "wall": null,
+  "whole food": "🍅"
 }
