@@ -1,23 +1,26 @@
 package com.theokanning.emojikeyboard.analytics
 
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.CustomEvent
+import android.content.Context
+import android.os.Bundle
+import com.google.firebase.analytics.FirebaseAnalytics
 
-class Analytics {
-    fun emojiMatched(description: String) {
-        val event = CustomEvent("Emoji Matched")
-                .putCustomAttribute("emoji", description)
-        Answers.getInstance().logCustom(event)
+class Analytics(context: Context) {
+
+    private val firebaseAnalytics = FirebaseAnalytics.getInstance(context.applicationContext)
+
+    fun emojiMatched(label: String) {
+        val params = Bundle()
+        params.putString("emoji", label)
+        firebaseAnalytics.logEvent("Emoji_Matched", params)
     }
 
     fun noEmojiMatched() {
-        val event = CustomEvent("No Emoji Matched")
-        Answers.getInstance().logCustom(event)
+        firebaseAnalytics.logEvent("No_Emoji_Matched", Bundle())
     }
 
     fun labelNotRecognized(label: String) {
-        val event = CustomEvent("Label Not Recognized")
-                .putCustomAttribute("label", label)
-        Answers.getInstance().logCustom(event)
+        val params = Bundle()
+        params.putString("label", label)
+        firebaseAnalytics.logEvent("Label_Not_Recognized", params)
     }
 }

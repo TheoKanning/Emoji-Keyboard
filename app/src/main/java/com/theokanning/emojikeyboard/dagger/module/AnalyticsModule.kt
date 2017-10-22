@@ -1,5 +1,6 @@
 package com.theokanning.emojikeyboard.dagger.module
 
+import android.content.Context
 import com.theokanning.emojikeyboard.analytics.Analytics
 import dagger.Module
 import dagger.Provides
@@ -9,5 +10,5 @@ import javax.inject.Singleton
 class AnalyticsModule {
     @Provides
     @Singleton
-    fun provideAnalytics() = Analytics()
+    fun provideAnalytics(context: Context) = Analytics(context)
 }

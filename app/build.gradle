@@ -76,6 +76,9 @@ dependencies {
     compile "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    // firebase analytics
+    compile 'com.google.firebase:firebase-core:11.4.2'
+
     // okhttp
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
@@ -89,3 +92,5 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
