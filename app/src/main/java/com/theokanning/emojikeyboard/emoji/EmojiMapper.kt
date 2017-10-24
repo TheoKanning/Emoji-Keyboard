@@ -7,18 +7,21 @@ class EmojiMapper(private val emojiJavaWrapper: EmojiJavaWrapper,
                   emojiLoader: EmojiLoader,
                   private val analytics: Analytics) {
 
-    val emojiMap : Map<String, String> = emojiLoader.loadEmojis()
-
+    private val emojiMap  = emojiLoader.loadEmojis()
+    private val ignoredLabels = emojiLoader.loadIgnoredLabels()
     /**
      * Looks through the list attempting to find an emoji that corresponds to one of the strings.
      * If no emoji is found, returns null.
      */
     fun findBestEmoji(labels: List<String>): String? {
-        // search through all labels to see which are missing
-        recordMissingEmojis(labels)
+        // remove all ignored labels
+        val filteredLabels = ArrayList<String>()
+        labels.filterNotTo(filteredLabels, {ignoredLabels.contains(it)})
 
+        // search through all labels to see which are missing
+        recordMissingEmojis(filteredLabels)
         // return the unicode representation of the first matched emoji
-        labels.map {
+        filteredLabels.map {
             val emoji = matchEmoji(it)
             if (emoji != null) {
                 analytics.emojiMatched(it)

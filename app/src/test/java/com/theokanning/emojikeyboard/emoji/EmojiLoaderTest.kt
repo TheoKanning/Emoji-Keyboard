@@ -36,11 +36,33 @@ class EmojiLoaderTest {
     }
 
     @Test
-    fun cantFindFile_returnsEmptyMap() {
+    fun cantFindEmojiFile_returnsEmptyMap() {
         whenever(assetManager.open(any())) doThrow IOException("Test")
         val expected : Map<String, String> = emptyMap()
         val map = emojiLoader.loadEmojis()
 
         assertEquals(expected, map)
+    }
+
+    @Test
+    fun loadsIgnoredList() {
+        val json = """["product"]"""
+        val expected = ArrayList<String>()
+        expected.add("product")
+
+        whenever(assetManager.open("ignored.json")) doReturn json.byteInputStream(Charset.forName("UTF-8"))
+
+        val list = emojiLoader.loadIgnoredLabels()
+
+        assertEquals(expected, list)
+    }
+
+    @Test
+    fun cantFindIgnoredFile_returnsEmptyList() {
+        whenever(assetManager.open(any())) doThrow IOException("Test")
+        val expected : List<String> = emptyList()
+        val list = emojiLoader.loadIgnoredLabels()
+
+        assertEquals(expected, list)
     }
 }

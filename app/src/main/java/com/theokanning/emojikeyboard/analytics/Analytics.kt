@@ -11,16 +11,16 @@ class Analytics(context: Context) {
     fun emojiMatched(label: String) {
         val params = Bundle()
         params.putString("emoji", label)
-        firebaseAnalytics.logEvent("Emoji_Matched", params)
+        firebaseAnalytics.logEvent("emoji_matched", params)
     }
 
     fun noEmojiMatched() {
-        firebaseAnalytics.logEvent("No_Emoji_Matched", Bundle())
+        firebaseAnalytics.logEvent("no_emoji_matched", Bundle())
     }
 
     fun labelNotRecognized(label: String) {
         val params = Bundle()
         params.putString("label", label)
-        firebaseAnalytics.logEvent("Label_Not_Recognized", params)
+        firebaseAnalytics.logEvent("label_not_recognized", params)
     }
 }

@@ -1,11 +1,9 @@
 package com.theokanning.emojikeyboard.emoji
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import com.theokanning.emojikeyboard.analytics.Analytics
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -74,5 +72,20 @@ class EmojiMapperTest {
         verify(analytics).emojiMatched(valid)
         verify(analytics).labelNotRecognized(invalid)
         assertEquals("🏠", emoji)
+    }
+
+    @Test
+    fun labelsIgnored_doesNotSendAnalyticsEvent() {
+        val label = "product"
+
+        whenever(emojiLoader.loadIgnoredLabels()) doReturn listOf(label)
+
+        // recreate so that init is called again
+        emojiMapper = EmojiMapper(emojiJavaWrapper, emojiLoader, analytics)
+
+        val emoji = emojiMapper.findBestEmoji(listOf(label))
+
+        verify(analytics, times(0)).labelNotRecognized(any())
+        assertNull(emoji)
     }
 }
