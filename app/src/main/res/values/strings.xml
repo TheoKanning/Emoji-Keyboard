@@ -5,4 +5,6 @@
 
     <string name="camera_permission_rationale">🚫📷😭</string>
     <string name="settings_button">👇\n👉⚙️👈\n👆</string>
+
+    <string name="no_emoji_found">No emoji found 😭</string>
 </resources>

@@ -9,6 +9,7 @@ import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import android.widget.Toast
 import com.theokanning.emojikeyboard.emoji.EmojiService
 import com.theokanning.emojikeyboard.view.KeyboardView
@@ -62,11 +63,22 @@ class KeyboardService : InputMethodService() {
     }
 
     private fun onEmojiReceived(emoji: String?) {
+        keyboardView.showButton()
         if (emoji != null) {
             currentInputConnection.commitText(emoji, 1)
-        } else {
-            Toast.makeText(this@KeyboardService.applicationContext, "No matching emoji", Toast.LENGTH_LONG).show()
         }
+        val message = emoji ?: applicationContext.getString(R.string.no_emoji_found)
+        showToast(message)
+    }
+
+    private fun showToast(message: String) {
+        val toastView = layoutInflater.inflate(R.layout.toast, null)
+        val text = toastView.findViewById<TextView>(R.id.toast_text)
+        text.text = message
+
+        val toast = Toast.makeText(this@KeyboardService.applicationContext, message, Toast.LENGTH_LONG)
+        toast.view = toastView
+        toast.show()
     }
 
     private val cameraListener = object : CameraListener() {

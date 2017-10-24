@@ -20,9 +20,11 @@ import com.wonderkiln.camerakit.CameraView
  */
 class KeyboardView(context: Context) : FrameLayout(context) {
 
-    private lateinit var cameraView: CameraView
-    private lateinit var cameraLayout: View
-    private lateinit var permissionsLayout: View
+    private var cameraView: CameraView
+    private var cameraLayout: View
+    private var permissionsLayout: View
+    private var progress : View
+    private var takePicture : View
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -30,8 +32,11 @@ class KeyboardView(context: Context) : FrameLayout(context) {
         cameraView = findViewById(R.id.camera_view)
         cameraLayout = findViewById(R.id.camera_layout)
         permissionsLayout = findViewById(R.id.permission_rationale_layout)
+        progress = findViewById(R.id.progress)
+        takePicture = findViewById(R.id.take_picture)
         val button: View = findViewById(R.id.take_picture)
         button.setOnClickListener {
+            showLoading()
             cameraView.captureImage()
         }
         val settingsButton: View = findViewById(R.id.go_to_settings)
@@ -66,6 +71,16 @@ class KeyboardView(context: Context) : FrameLayout(context) {
     fun stopCamera() {
         Log.d(TAG, "Stopping Camera")
         cameraView.stop()
+    }
+
+    fun showButton() {
+        progress.visibility = View.GONE
+        takePicture.visibility = View.VISIBLE
+    }
+
+    fun showLoading() {
+        progress.visibility = View.VISIBLE
+        takePicture.visibility = View.GONE
     }
 
     private fun goToSettings() {
