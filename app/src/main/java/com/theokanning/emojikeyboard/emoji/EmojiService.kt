@@ -28,7 +28,8 @@ class EmojiService(private val api: VisionApi,
                 if (response?.isSuccessful == true) {
                     val labelBatchResponse = response.body()!!
                     val labelImageResponse = labelBatchResponse.responses[0] // should only have one response
-                    val labels = labelImageResponse.labelAnnotations.map { it.description }
+                    val labelAnnotations = labelImageResponse.labelAnnotations ?: emptyList()
+                    val labels = labelAnnotations.map { it.description }
                     val emoji = emojiMapper.findBestEmoji(labels)
                     callback(emoji)
                 } else {
