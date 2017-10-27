@@ -92,6 +92,6 @@ class KeyboardView(context: Context) : FrameLayout(context) {
     }
 
     companion object {
-        private val TAG = this::class.java.simpleName
+        private val TAG = KeyboardView::class.java.simpleName
     }
 }

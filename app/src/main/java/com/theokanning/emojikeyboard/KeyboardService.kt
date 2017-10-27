@@ -26,8 +26,16 @@ class KeyboardService : InputMethodService() {
 
     private var checkedForPermission = false
 
+    override fun onCreate() {
+        super.onCreate()
+        Log.d(TAG, "OnCreate")
+        keyboardView = KeyboardView(applicationContext)
+    }
+
     override fun onCreateInputView(): View {
         Log.d(TAG, "OnCreateInputView")
+        // stop previous keyboard
+        keyboardView.stopCamera()
         keyboardView = KeyboardView(applicationContext)
 
         (application as KeyboardApplication).getComponent().inject(this)
@@ -37,7 +45,7 @@ class KeyboardService : InputMethodService() {
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        Log.d(TAG, "onStartInputView: restarting=$restarting")
+        Log.d(TAG, "onStartInputView")
 
         if (!hasCameraPermission() && !checkedForPermission) {
             checkedForPermission = true
@@ -52,10 +60,14 @@ class KeyboardService : InputMethodService() {
         }
     }
 
+    override fun onFinishInputView(finishingInput: Boolean) {
+        Log.d(TAG, "OnFinishInputView")
+        keyboardView.stopCamera()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "OnDestroy")
-        keyboardView.stopCamera()
     }
 
     private fun hasCameraPermission(): Boolean {
