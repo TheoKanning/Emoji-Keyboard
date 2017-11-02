@@ -12,35 +12,21 @@ import android.view.View
 import android.widget.FrameLayout
 import com.theokanning.emojikeyboard.R
 import com.wonderkiln.camerakit.CameraListener
-import com.wonderkiln.camerakit.CameraView
+import kotlinx.android.synthetic.main.view_keyboard.view.*
 
 
-/**
- * Created by Theo on 10/24/2017.
- */
 class KeyboardView(context: Context) : FrameLayout(context) {
-
-    private var cameraView: CameraView
-    private var cameraLayout: View
-    private var permissionsLayout: View
-    private var progress : View
-    private var takePicture : View
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.view_keyboard, this, true)
-        cameraView = findViewById(R.id.camera_view)
-        cameraLayout = findViewById(R.id.camera_layout)
-        permissionsLayout = findViewById(R.id.permission_rationale_layout)
-        progress = findViewById(R.id.progress)
-        takePicture = findViewById(R.id.take_picture)
-        val button: View = findViewById(R.id.take_picture)
-        button.setOnClickListener {
+
+        takePictureButton.setOnClickListener {
             showLoading()
             cameraView.captureImage()
         }
-        val settingsButton: View = findViewById(R.id.go_to_settings)
-        settingsButton.setOnClickListener { goToSettings() }
+
+        goToSettingsButton.setOnClickListener { goToSettings() }
     }
 
     /**
@@ -48,7 +34,7 @@ class KeyboardView(context: Context) : FrameLayout(context) {
      */
     fun showCamera() {
         cameraLayout.visibility = View.VISIBLE
-        permissionsLayout.visibility = View.GONE
+        permissionRationale.visibility = View.GONE
     }
 
     /**
@@ -56,7 +42,7 @@ class KeyboardView(context: Context) : FrameLayout(context) {
      */
     fun showPermissionsInstructions() {
         cameraLayout.visibility = View.GONE
-        permissionsLayout.visibility = View.VISIBLE
+        permissionRationale.visibility = View.VISIBLE
     }
 
     fun setCameraListener(listener: CameraListener) {
@@ -75,12 +61,12 @@ class KeyboardView(context: Context) : FrameLayout(context) {
 
     fun showButton() {
         progress.visibility = View.GONE
-        takePicture.visibility = View.VISIBLE
+        takePictureButton.visibility = View.VISIBLE
     }
 
     fun showLoading() {
         progress.visibility = View.VISIBLE
-        takePicture.visibility = View.GONE
+        takePictureButton.visibility = View.GONE
     }
 
     private fun goToSettings() {

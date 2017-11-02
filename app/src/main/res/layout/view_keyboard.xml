@@ -7,7 +7,7 @@
     >
 
     <FrameLayout
-        android:id="@+id/camera_layout"
+        android:id="@+id/cameraLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/keyboard_height"
         android:animateLayoutChanges="true"
@@ -16,7 +16,7 @@
         >
 
         <com.wonderkiln.camerakit.CameraView
-            android:id="@+id/camera_view"
+            android:id="@+id/cameraView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -28,7 +28,7 @@
             />
 
         <Button
-            android:id="@+id/take_picture"
+            android:id="@+id/takePictureButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal|bottom"
@@ -49,7 +49,7 @@
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/permission_rationale_layout"
+        android:id="@+id/permissionRationale"
         android:layout_width="match_parent"
         android:layout_height="@dimen/keyboard_height"
         android:background="@android:color/background_light"
@@ -67,7 +67,7 @@
             />
 
         <TextView
-            android:id="@+id/go_to_settings"
+            android:id="@+id/goToSettingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
