@@ -3,38 +3,34 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
-def localPropertiesFile = rootProject.file("local.properties")
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(localPropertiesFile))
-
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.0'
     defaultConfig {
         applicationId "com.theokanning.emojikeyboard"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 5
         versionName "0.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         debug {
-            keyAlias localProperties['debugKeyAlias']
-            keyPassword localProperties['debugKeyPassword']
-            storeFile file(localProperties['debugStoreFile'])
-            storePassword localProperties['debugStorePassword']
+            keyAlias debugKeyAlias
+            keyPassword debugKeyPassword
+            storeFile file(debugStoreFile)
+            storePassword debugStorePassword
         }
         release {
-            keyAlias localProperties['releaseKeyAlias']
-            keyPassword localProperties['releaseKeyPassword']
-            storeFile file(localProperties['releaseStoreFile'])
-            storePassword localProperties['releaseStorePassword']
+            keyAlias releaseKeyAlias
+            keyPassword releaseKeyPassword
+            storeFile file(releaseStoreFile)
+            storePassword releaseStorePassword
         }
     }
     defaultConfig {
-        buildConfigField "String", "API_KEY", localProperties['api_key']
-        manifestPlaceholders = [fabricKey: localProperties['fabric_key']]
+        buildConfigField "String", "API_KEY", vision_api_key
+        manifestPlaceholders = [fabricKey: fabric_key]
     }
     buildTypes {
         debug {
