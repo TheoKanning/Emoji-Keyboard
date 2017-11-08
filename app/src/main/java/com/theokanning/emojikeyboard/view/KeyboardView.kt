@@ -9,24 +9,22 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.widget.LinearLayout
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import com.theokanning.emojikeyboard.R
 import com.wonderkiln.camerakit.CameraListener
 import kotlinx.android.synthetic.main.view_keyboard.view.*
 
 
-class KeyboardView(context: Context) : FrameLayout(context) {
+class KeyboardView(context: Context) : LinearLayout(context) {
 
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.view_keyboard, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_keyboard, this, true)
+        orientation = VERTICAL
 
-        takePictureButton.setOnClickListener {
-            showLoading()
-            cameraView.captureImage()
-        }
-
-        goToSettingsButton.setOnClickListener { goToSettings() }
+        initializeButtons()
+        initializeAdView()
     }
 
     /**
@@ -67,6 +65,27 @@ class KeyboardView(context: Context) : FrameLayout(context) {
     fun showLoading() {
         progress.visibility = View.VISIBLE
         takePictureButton.visibility = View.GONE
+    }
+
+    private fun initializeButtons() {
+        takePictureButton.setOnClickListener {
+            showLoading()
+            cameraView.captureImage()
+        }
+
+        goToSettingsButton.setOnClickListener { goToSettings() }
+    }
+
+    private fun initializeAdView() {
+        val adRequest = AdRequest.Builder().build()
+        adView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                adView.requestLayout() // required to make ad appear in landscape mode for some reason
+            }
+        }
+
+        adView.loadAd(adRequest)
     }
 
     private fun goToSettings() {

@@ -33,11 +33,16 @@ android {
         buildConfigField "String", "API_KEY", vision_api_key
         manifestPlaceholders = [fabricKey: fabric_key]
     }
+
     buildTypes {
         debug {
+            resValue "string", "admob_app_id", "ca-app-pub-3940256099942544~3347511713"
+            resValue "string", "admob_unit_id", "ca-app-pub-3940256099942544/6300978111"
             applicationIdSuffix ".debug"
         }
         release {
+            resValue "string", "admob_app_id", admobAppId
+            resValue "string", "admob_unit_id", admobUnitId
             minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -58,6 +63,7 @@ ext {
     daggerVersion = '2.12'
     okhttpVersion = '3.9.0'
     retrofitVersion = '2.3.0'
+    firebaseVersion = '11.6.0'
 }
 
 dependencies {
@@ -76,8 +82,9 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    // firebase analytics
-    implementation 'com.google.firebase:firebase-core:11.4.2'
+    // firebase
+    implementation "com.google.firebase:firebase-core:$firebaseVersion"
+    compile "com.google.firebase:firebase-ads:$firebaseVersion"
 
     // okhttp
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
