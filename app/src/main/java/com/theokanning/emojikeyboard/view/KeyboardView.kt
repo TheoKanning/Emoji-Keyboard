@@ -74,6 +74,14 @@ class KeyboardView(context: Context) : LinearLayout(context) {
         }
 
         goToSettingsButton.setOnClickListener { goToSettings() }
+
+        changeCameraButton.setOnClickListener {
+            if(cameraView.isFacingFront) {
+                cameraView.facing = 0
+            } else {
+                cameraView.facing = 1
+            }
+        }
     }
 
     private fun initializeAdView() {

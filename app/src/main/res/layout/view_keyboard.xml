@@ -36,6 +36,16 @@
             android:background="@drawable/ic_check_white_24dp"
             />
 
+        <Button
+            android:id="@+id/changeCameraButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|start"
+            android:padding="16dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/ic_switch_camera_white_24dp"
+            />
+
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="48dp"
@@ -83,5 +93,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/admob_unit_id"/>
+        ads:adUnitId="@string/admob_unit_id"
+        />
 </merge>
