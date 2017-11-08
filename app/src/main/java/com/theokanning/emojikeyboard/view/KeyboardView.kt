@@ -91,6 +91,7 @@ class KeyboardView(context: Context) : LinearLayout(context) {
     private fun goToSettings() {
         val intent = Intent()
         intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val uri = Uri.fromParts("package", context.packageName, null)
         intent.data = uri
         startActivity(context, intent, Bundle.EMPTY)
