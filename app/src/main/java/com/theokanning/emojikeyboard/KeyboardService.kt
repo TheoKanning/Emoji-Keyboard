@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import com.theokanning.emojikeyboard.analytics.Analytics
 import com.theokanning.emojikeyboard.emoji.EmojiService
 import com.theokanning.emojikeyboard.view.KeyboardView
 import com.wonderkiln.camerakit.CameraListener
@@ -21,6 +22,9 @@ class KeyboardService : InputMethodService() {
 
     @Inject
     lateinit var emojiService: EmojiService
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private lateinit var keyboardView: KeyboardView
 
@@ -46,6 +50,8 @@ class KeyboardService : InputMethodService() {
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
         Log.d(TAG, "onStartInputView")
+
+        logOrientation()
 
         if (!hasCameraPermission() && !checkedForPermission) {
             checkedForPermission = true
@@ -91,6 +97,10 @@ class KeyboardService : InputMethodService() {
         val toast = Toast.makeText(this@KeyboardService.applicationContext, message, Toast.LENGTH_LONG)
         toast.view = toastView
         toast.show()
+    }
+
+    private fun logOrientation() {
+        analytics.orientation(resources.configuration.orientation)
     }
 
     private val cameraListener = object : CameraListener() {
