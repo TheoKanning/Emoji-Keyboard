@@ -44,6 +44,7 @@
             android:padding="16dp"
             android:layout_margin="16dp"
             android:background="@drawable/ic_switch_camera_white_24dp"
+            android:visibility="gone"
             />
 
         <ProgressBar
