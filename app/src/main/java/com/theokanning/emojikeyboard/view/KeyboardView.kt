@@ -9,22 +9,18 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
+import android.widget.FrameLayout
 import com.theokanning.emojikeyboard.R
 import com.wonderkiln.camerakit.CameraListener
 import kotlinx.android.synthetic.main.view_keyboard.view.*
 
 
-class KeyboardView(context: Context) : LinearLayout(context) {
+class KeyboardView(context: Context) : FrameLayout(context) {
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_keyboard, this, true)
-        orientation = VERTICAL
 
         initializeButtons()
-        initializeAdView()
     }
 
     /**
@@ -82,18 +78,6 @@ class KeyboardView(context: Context) : LinearLayout(context) {
                 cameraView.facing = 1
             }
         }
-    }
-
-    private fun initializeAdView() {
-        val adRequest = AdRequest.Builder().build()
-        adView.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-                adView.requestLayout() // required to make ad appear in landscape mode for some reason
-            }
-        }
-
-        adView.loadAd(adRequest)
     }
 
     private fun goToSettings() {

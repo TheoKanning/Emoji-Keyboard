@@ -36,13 +36,9 @@ android {
 
     buildTypes {
         debug {
-            resValue "string", "admob_app_id", "ca-app-pub-3940256099942544~3347511713"
-            resValue "string", "admob_unit_id", "ca-app-pub-3940256099942544/6300978111"
             applicationIdSuffix ".debug"
         }
         release {
-            resValue "string", "admob_app_id", admobAppId
-            resValue "string", "admob_unit_id", admobUnitId
             minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -84,7 +80,6 @@ dependencies {
 
     // firebase
     implementation "com.google.firebase:firebase-core:$firebaseVersion"
-    compile "com.google.firebase:firebase-ads:$firebaseVersion"
 
     // okhttp
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
