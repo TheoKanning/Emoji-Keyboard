@@ -3,6 +3,8 @@ Finally, an Android keyboard that converts pictures into emojis.
 
 Available on the [Play Store](https://play.google.com/store/apps/details?id=com.theokanning.emojikeyboard)
 
+![example](keyboard.gif)
+
 ## How 😀⌨ works ##
 😀⌨ works by posting photos to the Google Cloud Vision Api, labelling them, and then converting the
 text labels into emojis using emoji-java. Since not all labels can be converted directly to emojis, 
@@ -26,7 +28,7 @@ Samsung Devices:
 2. To make 😀⌨ your current keyboard, start typing anywhere. Swipe down from the top of the phone to see your notifications, and there should be a notification allowing you to switch keyboards.
 
 ## Technologies Used ##
-* [Google Clout Vision Api](https://cloud.google.com/vision/)
+* [Google Cloud Vision Api](https://cloud.google.com/vision/)
 * [emoji-java](https://github.com/vdurmont/emoji-java)
 * [CameraKit-Android](https://github.com/wonderkiln/CameraKit-Android)
 * [Firebase Analytics](https://firebase.google.com/products/analytics/)
