@@ -3,7 +3,7 @@ Finally, an Android keyboard that converts pictures into emojis.
 
 Available on the [Play Store](https://play.google.com/store/apps/details?id=com.theokanning.emojikeyboard)
 
-![example](keyboard.gif)
+![example](example.gif)
 
 ## How 😀⌨ works ##
 😀⌨ works by posting photos to the Google Cloud Vision Api, labelling them, and then converting the
@@ -19,6 +19,7 @@ Follow these steps to enable 😀⌨ on your phone
 4. Select Virtual Keyboards
 5. Select Manage Keyboards
 6. Press the toggle to activate 😀⌨
+
 Now 😀⌨ is enabled!
 
 In order to use 😀⌨ to type, start typing anywhere. A keyboard icon will appear in the bottom right of the screen. Press it to see keyboard options and select 😀⌨.
