@@ -11,8 +11,8 @@ android {
         applicationId "com.theokanning.emojikeyboard"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 8
-        versionName "1.0.1"
+        versionCode 9
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
