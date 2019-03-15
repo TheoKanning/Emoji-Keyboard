@@ -15,8 +15,9 @@ class EmojiMapper(private val emojiJavaWrapper: EmojiJavaWrapper,
      */
     fun findBestEmoji(labels: List<String>): String? {
         // remove all ignored labels
+        val lowerCase = labels.map { it.toLowerCase() }
         val filteredLabels = ArrayList<String>()
-        labels.filterNotTo(filteredLabels, {ignoredLabels.contains(it)})
+        lowerCase.filterNotTo(filteredLabels, {ignoredLabels.contains(it)})
 
         // search through all labels to see which are missing
         recordMissingEmojis(filteredLabels)

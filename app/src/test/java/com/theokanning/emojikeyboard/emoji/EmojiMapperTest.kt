@@ -34,6 +34,17 @@ class EmojiMapperTest {
     }
 
     @Test
+    fun emojiHasMixedCase_convertToLowerCase() {
+        val label = "House"
+        whenever(emojiJavaWrapper.getEmojiForAlias(label.toLowerCase())) doReturn "🏠"
+
+        val emoji = emojiMapper.findBestEmoji(listOf(label))
+
+        verify(analytics).emojiMatched(label.toLowerCase())
+        assertEquals("🏠", emoji)
+    }
+
+    @Test
     fun emojiMatchedByEmojiJava_sendEventAndReturnString() {
         val label = "house"
         whenever(emojiJavaWrapper.getEmojiForAlias(label)) doReturn "🏠"
