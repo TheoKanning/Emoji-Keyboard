@@ -70,10 +70,6 @@ dependencies {
     implementation 'com.wonderkiln:camerakit:0.11.2'
     implementation 'com.vdurmont:emoji-java:3.3.0'
 
-    implementation('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
-        transitive = true
-    }
-
     // dagger
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

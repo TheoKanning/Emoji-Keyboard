@@ -1,11 +1,9 @@
 package com.theokanning.emojikeyboard
 
 import android.app.Application
-import com.crashlytics.android.Crashlytics
 import com.theokanning.emojikeyboard.dagger.component.ApplicationComponent
 import com.theokanning.emojikeyboard.dagger.component.DaggerApplicationComponent
 import com.theokanning.emojikeyboard.dagger.module.ApplicationModule
-import io.fabric.sdk.android.Fabric
 
 class KeyboardApplication : Application() {
 
@@ -14,7 +12,6 @@ class KeyboardApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Fabric.with(this, Crashlytics())
         createDaggerComponent()
     }
 

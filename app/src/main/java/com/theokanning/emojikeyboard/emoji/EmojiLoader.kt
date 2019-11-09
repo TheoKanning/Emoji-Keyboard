@@ -1,10 +1,8 @@
 package com.theokanning.emojikeyboard.emoji
 
 import android.content.res.AssetManager
-import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import io.fabric.sdk.android.Fabric
 import java.nio.charset.Charset
 
 /**
@@ -18,9 +16,6 @@ class EmojiLoader(private val assetManager: AssetManager, private val gson: Gson
             val type = object : TypeToken<Map<String, String>>() {}.type
             return gson.fromJson(json, type)
         } catch (e: Exception) {
-            if (Fabric.isInitialized()) {
-                Crashlytics.logException(e)
-            }
             return emptyMap()
         }
     }
@@ -31,9 +26,6 @@ class EmojiLoader(private val assetManager: AssetManager, private val gson: Gson
             val type = object : TypeToken<List<String>>() {}.type
             return gson.fromJson(json, type)
         } catch (e: Exception) {
-            if (Fabric.isInitialized()) {
-                Crashlytics.logException(e)
-            }
             return emptyList()
         }
     }
