@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.inputmethodservice.InputMethodService
+import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.util.Base64
 import android.util.Log
@@ -53,7 +54,8 @@ class KeyboardService : InputMethodService() {
 
         logOrientation()
 
-        if (!hasCameraPermission() && !checkedForPermission) {
+        // android 10 doesn't allow starting activities from services
+        if (!hasCameraPermission() && !checkedForPermission && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             checkedForPermission = true
             val intent = Intent(applicationContext, PermissionActivity::class.java)
             startActivity(intent)
