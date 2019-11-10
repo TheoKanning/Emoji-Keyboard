@@ -15,16 +15,15 @@
         tools:visibility="visible"
         >
 
-        <com.wonderkiln.camerakit.CameraView
+        <com.camerakit.CameraKitView
             android:id="@+id/cameraView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            app:ckCropOutput="true"
-            app:ckFacing="back"
-            app:ckFocus="tapWithMarker"
-            app:ckJpegQuality="25"
-            app:ckPermissions="picture"
+            app:camera_facing="back"
+            app:camera_focus="auto"
+            app:camera_imageJpegQuality="25"
+            app:camera_imageMegaPixels=".1"
             />
 
         <Button
