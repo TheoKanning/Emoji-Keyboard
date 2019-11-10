@@ -106,7 +106,7 @@ class KeyboardService : InputMethodService() {
 
     private val cameraListener = CameraKitView.ImageCallback { view, jpeg ->
         val encodedString = Base64.encodeToString(jpeg, Base64.DEFAULT)
-
+        Log.d(TAG, "Received image, ${jpeg.size} bytes")
         emojiService.getEmojiForImage(encodedString) { onEmojiReceived(it) }
     }
 

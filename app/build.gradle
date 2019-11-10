@@ -30,7 +30,6 @@ android {
     }
     defaultConfig {
         buildConfigField "String", "API_KEY", vision_api_key
-        manifestPlaceholders = [fabricKey: fabric_key]
     }
 
     buildTypes {
@@ -51,7 +50,6 @@ android {
 repositories {
     jcenter()
     google()
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 ext {

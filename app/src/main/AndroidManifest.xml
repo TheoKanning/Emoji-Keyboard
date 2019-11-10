@@ -29,10 +29,6 @@
         </service>
 
         <activity android:name=".PermissionActivity"/>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="${fabricKey}"
-            />
     </application>
 
 </manifest>
