@@ -23,7 +23,7 @@
             app:ckCropOutput="true"
             app:ckFacing="back"
             app:ckFocus="tapWithMarker"
-            app:ckJpegQuality="25"
+            app:ckJpegQuality="1"
             app:ckPermissions="picture"
             />
 
