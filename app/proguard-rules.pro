@@ -7,7 +7,3 @@
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
 -dontwarn okio.**
--dontwarn com.google.android.gms.**
--keepclasseswithmembers class com.camerakit.preview.CameraSurfaceView {
-    native <methods>;
-}

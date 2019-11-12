@@ -12,11 +12,12 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
-import com.camerakit.CameraKitView
 import com.theokanning.emojikeyboard.analytics.Analytics
 import com.theokanning.emojikeyboard.emoji.EmojiService
 import com.theokanning.emojikeyboard.view.KeyboardView
+import com.wonderkiln.camerakit.CameraListener
 import javax.inject.Inject
+
 
 class KeyboardService : InputMethodService() {
 
@@ -63,7 +64,7 @@ class KeyboardService : InputMethodService() {
         } else {
             keyboardView.showCamera()
             keyboardView.startCamera()
-            keyboardView.setImageCallback(cameraListener)
+            keyboardView.setCameraListener(cameraListener)
         }
     }
 
@@ -104,10 +105,13 @@ class KeyboardService : InputMethodService() {
         analytics.orientation(resources.configuration.orientation)
     }
 
-    private val cameraListener = CameraKitView.ImageCallback { view, jpeg ->
-        val encodedString = Base64.encodeToString(jpeg, Base64.DEFAULT)
-        Log.d(TAG, "Received image, ${jpeg.size} bytes")
-        emojiService.getEmojiForImage(encodedString) { onEmojiReceived(it) }
+
+    private val cameraListener = object : CameraListener() {
+        override fun onPictureTaken(jpeg: ByteArray?) {
+            val encodedString = Base64.encodeToString(jpeg, Base64.DEFAULT)
+            Log.d(TAG, "Received image, ${jpeg?.size} bytes")
+            emojiService.getEmojiForImage(encodedString, { onEmojiReceived(it) })
+        }
     }
 
     companion object {

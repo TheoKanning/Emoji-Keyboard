@@ -10,15 +10,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import com.camerakit.CameraKitView
 import com.theokanning.emojikeyboard.R
+import com.wonderkiln.camerakit.CameraListener
 import kotlinx.android.synthetic.main.view_keyboard.view.*
 
 
 class KeyboardView(context: Context) : FrameLayout(context) {
-
-    // todo replace this with a PublishSubject or something
-    var callback : CameraKitView.ImageCallback? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_keyboard, this, true)
@@ -42,20 +39,18 @@ class KeyboardView(context: Context) : FrameLayout(context) {
         permissionRationale.visibility = View.VISIBLE
     }
 
-    fun setImageCallback(callback: CameraKitView.ImageCallback) {
-        this.callback = callback
+    fun setCameraListener(listener: CameraListener) {
+        cameraView.setCameraListener(listener)
     }
 
     fun startCamera() {
         Log.d(TAG, "Starting Camera")
-        cameraView.onStart()
-        cameraView.onResume()
+        cameraView.start()
     }
 
     fun stopCamera() {
         Log.d(TAG, "Stopping Camera")
-        cameraView.onPause()
-        cameraView.onStop()
+        cameraView.stop()
     }
 
     fun showButton() {
@@ -71,13 +66,18 @@ class KeyboardView(context: Context) : FrameLayout(context) {
     private fun initializeButtons() {
         takePictureButton.setOnClickListener {
             showLoading()
-            Log.d(TAG, "Taking picture")
-            callback.let { cameraView.captureImage(it) }
+            cameraView.captureImage()
         }
 
         goToSettingsButton.setOnClickListener { goToSettings() }
 
-        changeCameraButton.setOnClickListener { cameraView.toggleFacing() }
+        changeCameraButton.setOnClickListener {
+            if(cameraView.isFacingFront) {
+                cameraView.facing = 0
+            } else {
+                cameraView.facing = 1
+            }
+        }
     }
 
     private fun goToSettings() {
